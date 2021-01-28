@@ -94,7 +94,7 @@ WSGI_APPLICATION = 'delivery.wsgi.application'
 #         'USER': 'deliveryman',
 #         'PASSWORD': 'Makerspython05',
 #         'HOST': 'localhost',
-#         'PORT': 5432
+#         'PORT': '5432'
 #     }
 # }
 
