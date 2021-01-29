@@ -41,6 +41,7 @@ urlpatterns = [
     path('v1/products/', include('product.urls')),
     path('v1/accounts/', include('account.urls')),
     path('v1/orders/', include('order.urls')),
+    path('v1/payments/', include('payments.urls')),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0)), 
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

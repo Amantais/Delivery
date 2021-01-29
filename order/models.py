@@ -17,6 +17,11 @@ class OrderItem(models.Model):
     quantity = models.DecimalField(max_digits=10, decimal_places=2)
     price = models.DecimalField(max_digits=10, decimal_places=2)
 
+    def get_total_price(self):
+        return self.quantity * self.product.price
+
+    def get_final_price(self):
+        return self.get_total_price()
 
 class Order(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, related_name='orders', null=True)
@@ -25,3 +30,11 @@ class Order(models.Model):
     address = models.CharField(max_length=100)
     total = models.DecimalField(max_digits=10, decimal_places=2)
     items = models.ManyToManyField(OrderItem)
+    paid = models.BooleanField(default=False)
+
+
+    def get_total(self):
+        total = 0 
+        for item in self.items.all():
+            total += item.get_final_price()
+            return total

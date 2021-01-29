@@ -4,9 +4,8 @@ from .models import Order
 from .serializers import OrderSerializer
 from .permissions import IsOwner
 import stripe 
-from django.shortcuts import redirect, render 
-from django.urls import reverse
-from rest_framework.response  import Response
+
+
 
 
 class OrderViewSet(mixins.CreateModelMixin,

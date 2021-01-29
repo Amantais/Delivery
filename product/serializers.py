@@ -41,7 +41,6 @@ class ProductSerializer(serializers.ModelSerializer):
         representation = super().to_representation(instance)
         representation['image'] = self._get_image_url(instance)
         representation['categories'] = CategorySerializer(instance.categories.all(), many=True).data
-        representation['comments'] = MainComment.objects.all().count()
         return representation
 
 

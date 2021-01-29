@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'product',
     'account',
     'order',
+    'payments',
 ]
 
 MIDDLEWARE = [
@@ -86,17 +87,6 @@ WSGI_APPLICATION = 'delivery.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'delivery',
-#         'USER': 'deliveryman',
-#         'PASSWORD': 'Makerspython05',
-#         'HOST': 'localhost',
-#         'PORT': '5432'
-#     }
-# }
 
 
 DATABASES = {
@@ -179,8 +169,8 @@ EMAIL_PORT=587
 EMAIL_HOST_USER = config('GMAIL_USER')
 EMAIL_HOST_PASSWORD = config('GMAIL_PASSWORD')
 
-# STRIPE_PUBLISHABLE_KEY = config('STRIPE_PUBLISHABLE_KEY') 
-# STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
 
-# STRIPE_PUBLISHABLE_KEY='pk_test_51IB1WnBMt2sNLCqmXr6DAA34lWtLyZJBuHuaDoEBvxKCdkQT86BIoBNzfICzdF4AUuui8k1IWGJX6BCCFNOIWg3b00sc1V9QO8'
-# STRIPE_SECRET_KEY='sk_test_51IB1WnBMt2sNLCqmqHitMk5CcwBFRIq1RzEA1j2uWpSHhcOIA187ywyPskW4zxU9ni9JLNt1oPcoJF9wDOqApsNz007B0wY5ZK'
+
+STRIPE_PUBLISHABLE_KEY='pk_test_51IB1WnBMt2sNLCqmXr6DAA34lWtLyZJBuHuaDoEBvxKCdkQT86BIoBNzfICzdF4AUuui8k1IWGJX6BCCFNOIWg3b00sc1V9QO8'
+STRIPE_SECRET_KEY='sk_test_51IB1WnBMt2sNLCqmqHitMk5CcwBFRIq1RzEA1j2uWpSHhcOIA187ywyPskW4zxU9ni9JLNt1oPcoJF9wDOqApsNz007B0wY5ZK'
+

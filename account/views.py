@@ -20,7 +20,7 @@ class RegisterView(APIView):
         if serializer.is_valid(raise_exception=True):
             user = serializer.save()
             send_activation_email(user)
-            return Response('Аккаунт успешно создан.', status=status.HTTP_201_CREATED)
+            return Response('Account is successfully created', status=status.HTTP_201_CREATED)
 
 
 class ActivationView(APIView):
@@ -30,22 +30,14 @@ class ActivationView(APIView):
         user.activation_code = ''
         user.save()
         return Response(
-            'Ваш аккаунт успешно активирован.',
+            'Your account is successfully activation.',
             status=status.HTTP_200_OK
         )
 
 
 
 
-class LogoutView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
 
-    def post(self, request):
-        user = request.user
-        Token.objects.filter(user=user).delete()
-        return Response(
-            'Вы успешно вышли из своего аккаунта.'
-        )
 
 
 class ProfileViewSet(mixins.RetrieveModelMixin,
@@ -55,3 +47,7 @@ class ProfileViewSet(mixins.RetrieveModelMixin,
     queryset = User.objects.all()
     serializer_class = ProfileSerializer
     permission_classes = [permissions.IsAuthenticated, IsOwnerAccount]
+
+
+    def get_object(self):
+        return self.request.user

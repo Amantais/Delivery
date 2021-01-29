@@ -8,19 +8,13 @@ from django.db.models import Q
 from .models import Product, Category, MainComment
 from .serializers import ProductSerializer, CategorySerializer, CreateUpdateProductSerializer, MainCommentSerializer,  ProductDetailSerializer
 from .filters import ProductFilter
-
-
-import stripe 
-
-stripe.api_key = 'sk_test_51IB1WnBMt2sNLCqmqHitMk5CcwBFRIq1RzEA1j2uWpSHhcOIA187ywyPskW4zxU9ni9JLNt1oPcoJF9wDOqApsNz007B0wY5ZK'
-
+from order.permissions import IsAuthor
 
 
 class CateogriesList(ListAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     permission_classes = [permissions.IsAuthenticated]
-
 
 
 class ProductViewSet(viewsets.ModelViewSet):
@@ -37,7 +31,7 @@ class ProductViewSet(viewsets.ModelViewSet):
         return CreateUpdateProductSerializer
 
     def get_permissions(self):
-        if self.action in ['list', 'retrieve', 'search']:
+        if self.action in ['list', 'retrieve']:
             permission = [permissions.IsAuthenticated]
         else:
             permission = [permissions.IsAdminUser]
@@ -53,14 +47,25 @@ class ProductViewSet(viewsets.ModelViewSet):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+
 class MainCommentViewSet(mixins.CreateModelMixin,
                         mixins.DestroyModelMixin,
+                        mixins.UpdateModelMixin,
                         viewsets.GenericViewSet):
 
     queryset = MainComment.objects.all().order_by('-created')
     serializer_class = MainCommentSerializer
-    permission_classes = [permissions.IsAuthenticated]
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
+
+
+    def get_permissions(self):
+        if self.action in ['destroy', 'update', 'partial_update']:
+            permission = [IsAuthor]
+        else:
+            permission = [permissions.IsAuthenticated, ]
+        return [permission() for permission in permission]
+
+    
 
