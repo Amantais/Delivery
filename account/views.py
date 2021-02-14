@@ -4,9 +4,9 @@ from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth import get_user_model
 from rest_framework import permissions, mixins, viewsets, status
 from django.shortcuts import get_object_or_404
+from rest_framework import generics
 
-
-from .serializers import RegisterSerializer, LoginSerializer, ProfileSerializer
+from .serializers import RegisterSerializer, LoginSerializer, ProfileSerializer, LogoutSerializer
 from .utils import send_activation_email, IsOwnerAccount
 
 
@@ -34,7 +34,16 @@ class ActivationView(APIView):
             status=status.HTTP_200_OK
         )
 
+class LogoutAPIView(generics.GenericAPIView):
+    serializer_class = LogoutSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 
